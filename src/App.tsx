@@ -1,42 +1,17 @@
-import { gql, useQuery } from "@apollo/client"
-import { useEffect } from "react"
+import { ApolloProvider } from "@apollo/client";
+import { BrowserRouter } from "react-router-dom";
 import { client } from "./lib/apollo";
-
-const GET_LESSONS_QUERY = gql`
-  query {
-    lessons {
-      id
-      title
-    }
-  }
-`
-
-interface Lesson {
-  id: string;
-  title: string;
-}
+import { Event } from "./pages/Event";
+import { Router } from "./Router";
 
 function App() {
-
-  //Requisições normais com fetch ou axios 
-  // useEffect(() => {
-  //   fetch('https://api-sa-east-1.graphcms.com/v2/cl4okolj70aln01xt0w9r8vwh/master', {
-  //     method: 'POST',
-  //     body: `query {
-
-  //     }`
-  //   })
-  // },[])
-  
-  const { data } = useQuery<{lessons: Lesson[]}>(GET_LESSONS_QUERY)
-
   return (
-    <ul>
-      {data?.lessons.map(lesson => {
-        return <li key={lesson.id}>{lesson.title}</li>
-      })}
-    </ul>
-  )
+    <ApolloProvider client={client}>
+      <BrowserRouter>
+        <Router />
+      </BrowserRouter>
+    </ApolloProvider>
+  );
 }
 
-export default App
+export default App;
